@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { PessoaService } from './service/pessoa.service';
 import { Pessoa } from './model/pessoa';
+import { AppModule } from './app.module';
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  title:String="quiz-app"
+  displayedColumns: string[] =  ['id', 'nome', 'acoes'];
   dataSource;
 
   constructor(private service: PessoaService){
@@ -22,12 +26,23 @@ export class AppComponent {
     this.findAll();
   }
 
+  delete(id){
+    this.service.delete(id).subscribe(
+      (response) =>{
+        this.findAll();
+      },
+      (response) =>{
+        alert("Erro!");
+      }
+    );
+  }
+
   findAll(){
     this.service.findAll().subscribe(
       (response) =>{
-        alert('sucesso!');
-        this.dataSource = new MatTableModule <Pessoa> (response);
-      }
+        //alert('sucesso!');
+        this.dataSource = new MatTableDataSource <Pessoa> (response);
+      },
       (response) => {
         alert("Erro!")
       }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core'
 import {HttpClient} from '@angular/common/http';
-import { Pessoa } from '../model/pessoa'
+import { Pessoa } from '../model/pessoa';
 
 @Injectable ({
   providedIn: 'root'
 })
 
 export class PessoaService {
-  constructor() {
+
+
     private URL_API = 'http://localhost:8080';
 
     constructor(private htpp:HttpClient) {}
@@ -19,7 +20,7 @@ export class PessoaService {
       return this.htpp.get<Pessoa[]>(this.URL_API + '/pessoa');
     }
     delete(id:number){
-      return this.http.delete(this.URL_API + '/pessoa/' + id);
+      return this.htpp.delete(this.URL_API + '/pessoa/' + id);
     }
   }
-}
+
